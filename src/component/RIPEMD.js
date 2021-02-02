@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
-import sha256 from 'crypto-js/sha256';
+import ripemd160 from 'crypto-js/ripemd160';
 
-const SHA256 = () => {
+const RIPEMD = () => {
 
     const [message, setMessage] = useState("");
 
@@ -22,18 +22,17 @@ const SHA256 = () => {
 
     return (
         <div style={styleDiv}>
-            <h1>SHA256 page</h1>
+            <h1>RIPEMD page</h1>
             <p>Type your message to encrypte</p>
             <input 
                 type="text" 
                 style={styleInput} 
                 placeholder="message"
-                id="inputSHA256"
-                onChange={e => setMessage(sha256(e.target.value).toString())}
+                onChange={e => setMessage(ripemd160(e.target.value).toString())}
             />
-            <p>message encrypted : {message}</p>
+            <p>message : {message}</p>
         </div>
     )
 }
 
-export default SHA256;
+export default RIPEMD;

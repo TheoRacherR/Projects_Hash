@@ -63,7 +63,7 @@ const AES = () => {
                     setEncrypt(CryptoJS.AES.encrypt(messageEncrypt, keyEncrypt).toString());
                 }}
             />
-            <p>{encrypt}</p>
+            <p>Message encrypted : {encrypt}</p>
 
             <p>Type your message to decrypte</p>
             <input 
@@ -84,7 +84,7 @@ const AES = () => {
                     setDecrypt(CryptoJS.AES.decrypt(messageDecrypt, keyDecrypt).toString());
                 }}
             />
-            <p>{decrypt}</p>
+            <p>Message decrypted : {decrypt}</p>
         </div>
     );
 }
