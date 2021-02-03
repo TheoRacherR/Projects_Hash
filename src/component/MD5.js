@@ -28,10 +28,9 @@ const MD5 = () => {
                 type="text" 
                 style={styleInput} 
                 placeholder="message"
-                id="inputMD5"
                 onChange={e => setMessage(CryptoJS.MD5(e.target.value).toString())}
             />
-            <p>message : {message}</p>
+            <p>message encrypted : {message}</p>
         </div>
     )
 }
