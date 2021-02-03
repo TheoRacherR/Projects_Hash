@@ -1,19 +1,6 @@
 import React,{useState} from 'react';
 import CryptoJS from "react-native-crypto-js";
  
-let data = [{id: 1}, {id: 2}]
- 
-// Encrypt
-let ciphertext = CryptoJS.AES.encrypt(JSON.stringify(data), 'secret key 123').toString();
-
-console.log(ciphertext);
- 
-// Decrypt
-let bytes  = CryptoJS.AES.decrypt(ciphertext, 'secret key 123');
-let decryptedData = JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
- 
-console.log(decryptedData); // [{id: 1}, {id: 2}]
-
 
 const AES = () => {
 
@@ -24,6 +11,19 @@ const AES = () => {
     const [keyDecrypt, setKeyDecrypt] = useState("");
     const [messageDecrypt, setMessageDecrypt] = useState("");
     const [decrypt, setDecrypt] = useState("");
+
+    console.log("decrypt",decrypt);
+    console.log("Encrypt",encrypt);
+
+    const downloadFiles = (e,name) => {
+        const element = document.createElement("a");
+        const file = new Blob([e],  
+            {type: 'text/plain;charset=utf-8'});
+        element.href = URL.createObjectURL(file);
+        element.download = name;
+        document.body.appendChild(element);
+        element.click();
+    }
 
     const styleInput = {
         width: "100%",
@@ -39,6 +39,17 @@ const AES = () => {
     const styleDiv = {
         width: "50vw",
         margin: "20vh 0 0 25vw",
+    }
+
+    const styleButtonDownload = {
+        backgroundColor: "#4CAF50",
+        border: "none",
+        color: "white",
+        padding: "15px 32px",
+        textAlign: "center",
+        textDecoration: "none",
+        fontSize: "16px",
+        margin:"1vw"
     }
 
     return (
@@ -72,7 +83,8 @@ const AES = () => {
                 placeholder="key"
                 onChange={e => {
                     setKeyDecrypt(e.target.value);
-                    setDecrypt(CryptoJS.AES.decrypt(messageDecrypt, keyDecrypt).toString());
+                    let dat = CryptoJS.AES.decrypt(messageDecrypt, keyDecrypt);
+                    setDecrypt(dat.toString(CryptoJS.enc.Utf8));
                 }}
             />
             <input 
@@ -81,10 +93,17 @@ const AES = () => {
                 placeholder="message"
                 onChange={e => {
                     setMessageDecrypt(e.target.value);
-                    setDecrypt(CryptoJS.AES.decrypt(messageDecrypt, keyDecrypt).toString());
+                    let dat = CryptoJS.AES.decrypt(messageDecrypt, keyDecrypt).toString(CryptoJS.enc.Utf8);
+                    setDecrypt(dat.toString(CryptoJS.enc.Utf8));
                 }}
             />
             <p>Message decrypted : {decrypt}</p>
+
+            <button type="button" style={styleButtonDownload} id="buttonDownloadFiles" onClick={e => {
+                    downloadFiles(encrypt,"My_Encrypted_Message.txt");
+            }}>Download Encrypted Message</button>
+
+            <input type="file" placeholder="Upload Decrypted Message"/>
         </div>
     );
 }

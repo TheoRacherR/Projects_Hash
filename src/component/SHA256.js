@@ -4,6 +4,9 @@ import sha256 from 'crypto-js/sha256';
 const SHA256 = () => {
 
     const [message, setMessage] = useState("");
+    const [key,setKey] = useState("");
+    const [encryptedMsg,setEncryptedMsg] = useState("");
+    const [decryptedMsg,setDecryptedMsg] = useState("");
 
     const styleInput = {
         width: "100%",
@@ -29,9 +32,22 @@ const SHA256 = () => {
                 style={styleInput} 
                 placeholder="message"
                 id="inputSHA256"
-                onChange={e => setMessage(sha256(e.target.value).toString())}
+                onChange={e => {
+                    setMessage(e.target.value);
+                    setEncryptedMsg(sha256(key + message).toString());
+                }}
             />
-            <p>message encrypted : {message}</p>
+            <input 
+                type="text" 
+                style={styleInput}
+                placeholder="key"
+                id="inputSHA256"
+                onChange={e => {
+                    setKey(e.target.value);
+                    setEncryptedMsg(sha256(key + message).toString());
+                }}
+            />
+            <p>message encrypted : {encryptedMsg}</p>
         </div>
     )
 }
