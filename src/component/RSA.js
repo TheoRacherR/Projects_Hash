@@ -69,7 +69,8 @@ const RSA = () => {
         textAlign: "center",
         textDecoration: "none",
         fontSize: "16px",
-        margin:"1vw"
+        margin:"1vw",
+        cursor: "pointer",
     }
 
     const styleP = {
@@ -77,17 +78,12 @@ const RSA = () => {
         display : auto ? "block" : "none",
         overflowX: "auto",
     }
-
-    const styleFlex = {
-        
-    }
-
     
 
     return (
         <div style={styleDiv}>
             <h1>RSA page</h1>
-            <div style={styleFlex}>
+            <div>
                 <button type="button" style={styleButton} onClick={e => {
                     generateKeys();
                     setMan(false);

@@ -1,19 +1,23 @@
-import React,{useState} from 'react';
+import React,{ useState } from 'react';
 import CryptoJS from "react-native-crypto-js";
  
 
 const AES = () => {
 
     const [keyEncrypt, setKeyEncrypt] = useState("");
-    const [messageEncrypt, setMessageEncrypt] = useState("");
+    const [messageEncrypt, setMessageEncrypt] = useState("test");
     const [encrypt, setEncrypt] = useState("");
 
     const [keyDecrypt, setKeyDecrypt] = useState("");
     const [messageDecrypt, setMessageDecrypt] = useState("");
     const [decrypt, setDecrypt] = useState("");
 
-    console.log("decrypt",decrypt);
-    console.log("Encrypt",encrypt);
+    let msg = "";
+
+    // const [infor,setInfor] = useState("");
+
+    // console.log("decrypt",decrypt);
+    // console.log("Encrypt",encrypt);
 
     const downloadFiles = (e,name) => {
         const element = document.createElement("a");
@@ -24,6 +28,32 @@ const AES = () => {
         document.body.appendChild(element);
         element.click();
     }
+    
+        function ShowFile () {
+            // if (window.File && window.FileReader && window.FileList && window.Blob) {
+                var preview = document.getElementById('show-text');
+                var crypted = document.getElementById('show-done');
+                var file = document.querySelector('input[type=file]').files[0];
+                var reader = new FileReader()
+    
+                var textFile = /text.*/;
+                    if (file.type.match(textFile)) {
+                        reader.onload = function (event) {
+                            preview.innerHTML = event.target.result;
+                            msg = event.target.result;
+                            console.log(msg);
+                        }
+                    }
+                    else {
+                        preview.innerHTML = "<span class='error'>It doesn't seem to be a text file!</span>";
+                    }
+                reader.readAsText(file);
+                msg = CryptoJS.AES.encrypt(msg, keyEncrypt).toString();
+                crypted.innerHTML = msg;
+        //   } else {
+        //      alert("Your browser is too old to support HTML5 File API");
+        //   }
+        }
 
     const styleInput = {
         width: "100%",
@@ -49,7 +79,8 @@ const AES = () => {
         textAlign: "center",
         textDecoration: "none",
         fontSize: "16px",
-        margin:"1vw"
+        margin:"1vw",
+        cursor: "pointer",
     }
 
     return (
@@ -75,7 +106,7 @@ const AES = () => {
                 }}
             />
             <p>Message encrypted : {encrypt}</p>
-
+            
             <p>Type your message to decrypte</p>
             <input 
                 type="text" 
@@ -102,8 +133,18 @@ const AES = () => {
             <button type="button" style={styleButtonDownload} id="buttonDownloadFiles" onClick={e => {
                     downloadFiles(encrypt,"My_Encrypted_Message.txt");
             }}>Download Encrypted Message</button>
+            <p>Upload your file to encrypt your message</p>
+            <input type="file" id="inputDownloadFiles" onChange={e => ShowFile(e.target.result)}/>
+            <div>
+                <h3>Your message</h3>
+                <p id="show-text"></p>
+            </div>
 
-            <input type="file" placeholder="Upload Decrypted Message"/>
+            <div>
+                <h3>The message encrypted</h3>
+                <p id="show-done"></p>
+            </div>
+            
         </div>
     );
 }
